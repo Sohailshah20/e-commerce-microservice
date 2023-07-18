@@ -15,26 +15,28 @@ import java.util.List;
 @RequestMapping("/customer")
 public class CustomerController {
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClient;
 
-    public CustomerController(WebClient webClient) {
+    public CustomerController(WebClient.Builder webClient) {
         this.webClient = webClient;
     }
 
 
     @GetMapping("/{customerId}")
     public CustomerInfo getCustomerInfo(@PathVariable("customerId") int customerId) {
-        System.out.println("http://localhost:8082/order/" + customerId);
-        UserOrder userOrder = webClient.get()
-                .uri("http://localhost:8082/order/" + customerId)
+        System.out.println("http://order-service/order/" + customerId);
+        UserOrder userOrder = webClient.build()
+                .get()
+                .uri("http://order-service/order/" + customerId)
                 .retrieve()
                 .bodyToMono(UserOrder.class)
                 .block();
 
         userOrder.getUserOrder().forEach(System.out::println);
         List<Product> productList = userOrder.getUserOrder().stream()
-                .map(order -> webClient.get()
-                        .uri("http://localhost:8081/product/" + order.getProductId())
+                .map(order -> webClient.build()
+                        .get()
+                        .uri("http://product-service/product/" + order.getProductId())
                         .retrieve()
                         .bodyToMono(Product.class)
                         .block())
