@@ -1,6 +1,7 @@
 package com.shah.orderservice.controller;
 
 import com.shah.orderservice.model.Order;
+import com.shah.orderservice.model.UserOrder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,11 @@ public class OrderController {
         order.forEach(System.out::println);
     }
     @GetMapping("/{customerId}")
-    public List<Order> getOrders(@PathVariable("customerId") int customerId){
-        return order.stream()
+    public UserOrder getOrders(@PathVariable("customerId") int customerId){
+        List<Order> list = order.stream()
                 .filter(order -> order.getUserId() == customerId)
                 .toList();
+        return new UserOrder(list);
     }
 
     private void populateList() {

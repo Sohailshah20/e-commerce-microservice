@@ -1,4 +1,4 @@
-package com.shah.customerservice.model;
+package com.shah.orderservice.model;
 
 import java.util.List;
 
@@ -17,12 +17,5 @@ public class UserOrder {
 
     public void setUserOrder(List<Order> userOrder) {
         this.userOrder = userOrder;
-    }
-
-    @Override
-    public String toString() {
-        return "UserOrder{" +
-                "userOrder=" + userOrder +
-                '}';
     }
 }
