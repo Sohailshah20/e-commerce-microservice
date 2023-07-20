@@ -20,5 +20,4 @@ public class Config {
         return WebClient.builder();
     }
 
-
 }
